@@ -43,7 +43,7 @@ dnf_packages=(
 )
 
 # install rpms
-dnf5 install -y ${packages[@]}
+dnf5 -y install ${packages[@]}
 
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
