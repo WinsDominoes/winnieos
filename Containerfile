@@ -14,7 +14,7 @@ FROM ghcr.io/ublue-os/bluefin-dx:stable
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
     
 COPY system_files /
-COPY --chmod=+x scripts /tmp
+COPY scripts /tmp
 
 RUN /tmp/00-preconfigure.sh && \
     /tmp/01-image-info.sh && \
