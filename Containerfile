@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bluefin-dx:stable
+FROM ghcr.io/ublue-os/bluefin-dx:stable AS winnieos
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -12,10 +12,16 @@ FROM ghcr.io/ublue-os/bluefin-dx:stable
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
-
-COPY build.sh /tmp/build.sh
-
-RUN mkdir -p /var/lib/alternatives && \
-    /tmp/build.sh && \
-    ostree container commit
     
+COPY system_files /
+COPY scripts /scripts
+
+RUN /scripts/preconfigure.sh && \
+    /scripts/install_1password.sh && \
+    /scripts/install_warp.sh && \
+    /scripts/install_packages.sh && \
+    /scripts/configure_kde.sh && \
+    /scripts/enable_services.sh && \
+    /scripts/just.sh && \
+    /scripts/cleanup.sh && \
+    ostree container commit
