@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bluefin-dx:stable AS winnieos
+FROM ghcr.io/ublue-os/bluefin-dx:stable
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -14,13 +14,13 @@ FROM ghcr.io/ublue-os/bluefin-dx:stable AS winnieos
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
     
 COPY system_files /
-COPY scripts /scripts
+COPY scripts /tmp
 
-RUN /scripts/00-image-info.sh && \
-    /scripts/01-enable-services.sh && \
-    /scripts/02-install-packages.sh && \
-    /scripts/03-remove-packages.sh && \
-    /scripts/04-just.sh && \
-    /scripts/05-preconfigure.sh && \
-    /scripts/06-cleanup.sh && \
+RUN /tmp/00-preconfigure.sh && \
+    /tmp/01-image-info.sh && \
+    /tmp/02-install-packages.sh && \
+    /tmp/03-remove-packages.sh && \
+    /tmp/04-enable-services.sh && \
+    /tmp/05-just.sh && \
+    /tmp/06-cleanup.sh && \
     ostree container commit
