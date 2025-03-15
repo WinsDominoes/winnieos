@@ -16,6 +16,14 @@ FROM ghcr.io/ublue-os/bluefin-dx:stable
 COPY system_files /
 COPY scripts /tmp
 
+ARG BASE_IMAGE_NAME="bluefin-dx"
+ARG FEDORA_MAJOR-VERSION="41"
+ARG IMAGE_NAME="winnieos"
+ARG IMAGE_VENDOR="winsdominoes"
+ARG FEDORA_MAJOR_VERSION="41"
+ARG UBLUE_IMAGE_TAG="stable"
+ARG VERION=""
+
 RUN /tmp/00-preconfigure.sh && \
     /tmp/01-image-info.sh && \
     /tmp/02-install-packages.sh && \
