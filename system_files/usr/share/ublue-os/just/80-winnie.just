@@ -11,7 +11,7 @@ disconnect-home:
     tailscale down
 
 # Install system flatpaks
-_install-isengard-flatpaks:
+_install-winnie-flatpaks:
     #!/bin/bash
     BAZZITE_FLATPAK_LIST="$(curl https://raw.githubusercontent.com/ublue-os/bazzite/main/scripts/kde_flatpaks/flatpaks | tr '\n' ' ')"
     WINNIEOS_FLATPAK_LIST="$(curl https://raw.githubusercontent.com/winsdominoes/winnieos/main/flatpaks/winnie_flatpaks | tr '\n' ' ')"
