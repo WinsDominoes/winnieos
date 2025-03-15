@@ -48,13 +48,13 @@ dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
 
-brew_packages=(
-  "btop"
-  "dysk"
-  "dust"
-  "ffmpeg"
-  "fzf"
-  "broot"
-)
-
-brew install ${brew_packages[@]}
+# brew_packages=(
+#   "btop"
+#   "dysk"
+#   "dust"
+#   "ffmpeg"
+#   "fzf"
+#   "broot"
+# )
+# 
+# brew install ${brew_packages[@]}
