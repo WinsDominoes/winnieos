@@ -22,7 +22,7 @@ ARG IMAGE_NAME="winnieos"
 ARG IMAGE_VENDOR="winsdominoes"
 ARG FEDORA_MAJOR_VERSION="41"
 ARG UBLUE_IMAGE_TAG="stable"
-ARG VERION=""
+ARG VERSION=""
 
 RUN /tmp/00-preconfigure.sh && \
     /tmp/01-image-info.sh && \
