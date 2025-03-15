@@ -16,12 +16,11 @@ FROM ghcr.io/ublue-os/bluefin-dx:stable AS winnieos
 COPY system_files /
 COPY scripts /scripts
 
-RUN /scripts/preconfigure.sh && \
-    /scripts/install_1password.sh && \
-    /scripts/install_warp.sh && \
-    /scripts/install_packages.sh && \
-    /scripts/configure_kde.sh && \
-    /scripts/enable_services.sh && \
-    /scripts/just.sh && \
-    /scripts/cleanup.sh && \
+RUN /scripts/00-image-info.sh && \
+    /scripts/01-enable-services.sh && \
+    /scripts/02-install-packages.sh && \
+    /scripts/03-remove-packages.sh && \
+    /scripts/04-just.sh && \
+    /scripts/05-preconfigure.sh && \
+    /scripts/06-cleanup.sh && \
     ostree container commit
