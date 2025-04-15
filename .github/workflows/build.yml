@@ -38,8 +38,6 @@ jobs:
         base_image:
           - bluefin-dx
           - bluefin-dx-nvidia
-          - aurora-dx
-          - aurora-dx-nvidia
 
     permissions:
       contents: read
