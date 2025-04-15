@@ -18,11 +18,6 @@ COPY scripts /scripts
 
 FROM ${BASE_IMAGE}
 
-RUN /scripts/00-preconfigure.sh && \
-    /scripts/01-image-info.sh && \
-    /scripts/02-install-packages.sh && \
-    /scripts/03-remove-packages.sh && \
-    /scripts/04-enable-services.sh && \
-    /scripts/05-just.sh && \
-    /scripts/06-cleanup.sh && \
-    ostree container commit
+RUN --mount=type=tmpfs,dst=/tmp \
+  --mount=type=bind,from=ctx,source=/,target=/run/context \
+  /run/context/build_files/build.sh
