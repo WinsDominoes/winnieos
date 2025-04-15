@@ -19,6 +19,11 @@ env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
   ARTIFACTHUB_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4"  # You should put your own image here so that you get a fancy profile image on https://artifacthub.io/!
 
+  IMAGE_SOURCE_TAG: "latest"
+  SOURCE_ORG: "ublue-os"
+  SOURCE_REPO: "bluefin"
+  SOURCE_REPO: "aurora"
+  
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
   cancel-in-progress: true
@@ -27,6 +32,15 @@ jobs:
   build_push:
     name: Build and push image
     runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        base_image:
+          - bluefin-dx
+          - bluefin-dx-nvidia
+          - aurora-dx
+          - aurora-dx-nvidia
 
     permissions:
       contents: read
