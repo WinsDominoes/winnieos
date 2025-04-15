@@ -14,10 +14,10 @@ ARG BASE_IMAGE
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
     
 COPY system_files /
-COPY scripts /scripts
+COPY build_files/build.sh /tmp/build.sh
 
 FROM ${BASE_IMAGE}
 
-RUN --mount=type=tmpfs,dst=/tmp \
-  --mount=type=bind,from=ctx,source=/,target=/run/context \
-  /run/context/build_files/build.sh
+RUN mkdir -p /var/lib/alternatives && \
+    /tmp/build.sh && \
+    ostree container commit
