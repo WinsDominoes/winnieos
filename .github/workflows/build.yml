@@ -1,33 +1,36 @@
 ---
-name: Build Custom Image
+name: Build WinnieOS
 on:
-  pull_request:
-    branches:
-      - main
   schedule:
-    - cron: '05 10 * * *'  # 10:05am UTC everyday
+    # 7:10 UTC
+    - cron: "10 7 * * *" 
   push:
     branches:
       - main
     paths-ignore:
       - '**/README.md'
+  merge_group:
+  pull_request:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: "${{ github.event.repository.name }}"  # the name of the image produced by this build, matches repo names
-  IMAGE_DESC: "My Customized Universal Blue Image"
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
-  ARTIFACTHUB_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4"  # You should put your own image here so that you get a fancy profile image on https://artifacthub.io/!
+  IMAGE_NAME: "${{ github.event.repository.name }}" # the name of the image produced by this build, matches repo names
+  IMAGE_DESC: "${{ github.event.repository.description }}"
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
+  ARTIFACTHUB_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4"
 
+  # The tag used in the image from which we base of.
+  # ex.: ghcr.io/org/image:IMAGE_SOURCE_TAG
   IMAGE_SOURCE_TAG: "stable"
   SOURCE_ORG: "ublue-os"
   SOURCE_REPO: "bluefin"
-  
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
   cancel-in-progress: true
 
 jobs:
+
   build_push:
     name: Build and push image
     runs-on: ubuntu-24.04
@@ -39,10 +42,14 @@ jobs:
           - bluefin-dx
           - bluefin-dx-nvidia
 
+    env:
+      BASE_IMAGE: ${{ matrix.base_image }}
+
     permissions:
       contents: read
       packages: write
       id-token: write
+
     steps:
       # These stage versions are pinned by https://github.com/renovatebot/renovate
       - name: Checkout
@@ -50,10 +57,10 @@ jobs:
 
       # This is optional, but if you see that your builds are way too big for the runners, you can enable this by uncommenting the following lines:
       # - name: Maximize build space
-      #   uses: ublue-os/remove-unwanted-software@517622d6452028f266b7ba4cc9a123b5f58a6b53 # v7
+      #   uses: ublue-os/remove-unwanted-software@5a8b0374222a6fffddb1be9516b5fece9483bed0 # v8
       #   with:
       #     remove-codeql: true
-      
+
       - name: Get current date
         id: date
         run: |
@@ -62,6 +69,10 @@ jobs:
           # https://artifacthub.io/docs/topics/repositories/container-images/
           # https://linux.die.net/man/1/date
           echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" >> $GITHUB_OUTPUT
+
+      # OUTPUTS:
+      #   - SOURCE_VERSION: version of the source image. Ex.: testing-41.20250312
+      #   - SOURCE_VERSION_MAJOR: major version. Used to identify big releases. Ex.: 41
       - name: Get image major version
         id: fetch_source_meta
         env:
@@ -97,10 +108,10 @@ jobs:
           
           echo "SOURCE_VERSION_MAJOR=$SOURCE_VERSION_MAJOR" >>$GITHUB_OUTPUT
 
-      - name: Generate output image ref
-        id: gen_image_ref
-        run: |
-          echo "IMAGE_NAME=${BASE_IMAGE/winsdominoes/winnieos}" | tee -a $GITHUB_ENV
+      #- name: Generate output image ref
+       # id: gen_image_ref
+        #run: |
+         # echo "IMAGE_NAME=${BASE_IMAGE/winsdominoes/winnieos}" | tee -a $GITHUB_ENV
 
       # Image metadata for https://artifacthub.io/ - This is optional but is highly recommended so we all can get a index of all the custom images
       # The metadata by itself is not going to do anything, you choose if you want your image to be on ArtifactHub or not.
@@ -112,8 +123,11 @@ jobs:
           # By default, it should generate "latest" and "latest.(date here)".
           tags: |
             type=raw,value=latest
-            type=raw,value=latest.{{date 'YYYYMMDD'}}
-            type=raw,value={{date 'YYYYMMDD'}}
+            type=raw,value=stable
+            type=raw,value=stable-${{ steps.fetch_source_meta.outputs.SOURCE_VERSION_MAJOR }}
+            type=raw,value=stable-${{ steps.fetch_source_meta.outputs.SOURCE_VERSION_MAJOR }}.{{date 'YYYYMMDD'}}
+            type=raw,value=${{ steps.fetch_source_meta.outputs.SOURCE_VERSION_MAJOR }}
+            type=raw,value=${{ steps.fetch_source_meta.outputs.SOURCE_VERSION_MAJOR }}.{{date 'YYYYMMDD'}}
             type=sha,enable=${{ github.event_name == 'pull_request' }}
             type=ref,event=pr
           labels: |
@@ -125,7 +139,7 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=latest
+            org.opencontainers.image.version=${{ steps.fetch_source_meta.outputs.SOURCE_VERSION }}
             io.artifacthub.package.deprecated=false
             io.artifacthub.package.keywords=bootc,ublue,universal-blue
             io.artifacthub.package.license=Apache-2.0
@@ -137,7 +151,7 @@ jobs:
 
       - name: Build Image
         id: build_image
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2.13
         with:
           containerfiles: |
             ./Containerfile
@@ -147,30 +161,32 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci: false
+          build-args: |
+            BASE_IMAGE=ghcr.io/${{ env.SOURCE_ORG }}/${{ matrix.base_image }}:${{ env.IMAGE_SOURCE_TAG || 'latest' }}
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.
       # Documentation for Rechunk is provided on their github repository at https://github.com/hhd-dev/rechunk
       # You can enable it by uncommenting the following lines:
-       - name: Run Rechunker
-         id: rechunk
-         uses: hhd-dev/rechunk@f153348d8100c1f504dec435460a0d7baf11a9d2 # v1.1.1
-         with:
-           rechunk: 'ghcr.io/hhd-dev/rechunk:v1.0.1'
-           ref: "localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
-           prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
-           skip_compression: true
-           version: ${{ env.CENTOS_VERSION }}
-           labels: ${{ steps.metadata.outputs.labels }} # Rechunk strips out all the labels during build, this needs to be reapplied here with newline separator
+      # - name: Run Rechunker
+      #   id: rechunk
+      #   uses: hhd-dev/rechunk@f153348d8100c1f504dec435460a0d7baf11a9d2 # v1.1.1
+      #   with:
+      #     rechunk: 'ghcr.io/hhd-dev/rechunk:v1.0.1'
+      #     ref: "localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+      #     prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+      #     skip_compression: true
+      #     version: ${{ env.CENTOS_VERSION }}
+      #     labels: ${{ steps.metadata.outputs.labels }} # Rechunk strips out all the labels during build, this needs to be reapplied here with newline separator
 
       # This is necessary so that the podman socket can find the rechunked image on its storage
-       - name: Load in podman and tag
-         run: |
-           IMAGE=$(podman pull ${{ steps.rechunk.outputs.ref }})
-           sudo rm -rf ${{ steps.rechunk.outputs.output }}
-           for tag in ${{ steps.metadata.outputs.tags }}; do
-             podman tag $IMAGE ${{ env.IMAGE_NAME }}:$tag
-           done
+      # - name: Load in podman and tag
+      #   run: |
+      #     IMAGE=$(podman pull ${{ steps.rechunk.outputs.ref }})
+      #     sudo rm -rf ${{ steps.rechunk.outputs.output }}
+      #     for tag in ${{ steps.metadata.outputs.tags }}; do
+      #       podman tag $IMAGE ${{ env.IMAGE_NAME }}:$tag
+      #     done
 
       # These `if` statements are so that pull requests for your custom images do not make it publish any packages under your name without you knowing
       # They also check if the runner is on the default branch so that things like the merge queue (if you enable it), are going to work
@@ -184,17 +200,15 @@ jobs:
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
-      - name: Lowercase Registry
-        id: registry_case
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{ env.IMAGE_REGISTRY }}
-
-      - name: Lowercase Image
-        id: image_case
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{ env.IMAGE_NAME }}
+      - name: Lowercase Image and Registry
+        id: lowercase
+        env:
+          IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+        run: |
+          set -x
+          echo "registry=${IMAGE_REGISTRY,,}" >> $GITHUB_OUTPUT
+          echo "image=${IMAGE_NAME,,}" >> $GITHUB_OUTPUT
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2
@@ -204,8 +218,8 @@ jobs:
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ github.token }}
         with:
-          registry: ${{ steps.registry_case.outputs.lowercase }}
-          image: ${{ steps.image_case.outputs.lowercase }}
+          registry: ${{ steps.lowercase.outputs.registry }}
+          image: ${{ steps.lowercase.outputs.image }}
           tags: ${{ steps.metadata.outputs.tags }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
@@ -220,12 +234,36 @@ jobs:
 
       - name: Sign container image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: |
-          IMAGE_FULL="${{ steps.registry_case.outputs.lowercase }}/${{ steps.image_case.outputs.lowercase }}"
-          for tag in ${{ steps.metadata.outputs.tags }}; do
-            cosign sign -y --key env://COSIGN_PRIVATE_KEY $IMAGE_FULL:$tag
-          done
         env:
+          LOWERCASE_REGISTRY: ${{ steps.lowercase.outputs.registry }}
+          LOWERCASE_IMAGE: ${{ steps.lowercase.outputs.image }}
+          TAGS_TO_SIGN: ${{ steps.metadata.outputs.tags }}
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+        run: |
+          IMAGE_FULL="${LOWERCASE_REGISTRY}/${LOWERCASE_IMAGE}"
+          for tag in ${TAGS_TO_SIGN}; do
+            cosign sign -y --key env://COSIGN_PRIVATE_KEY $IMAGE_FULL:$tag
+          done
+
+  check:
+    name: Check all builds successful
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [build_push]
+    steps:
+      - name: Check Jobs
+        env:
+          JOBS: ${{ toJson(needs) }}
+        run: |
+          echo "Job status:"
+          echo $JOBS | jq -r 'to_entries[] | " - \(.key): \(.value.result)"'
+
+          for i in $(echo $JOBS | jq -r 'to_entries[] | .value.result'); do
+            if [ "$i" != "success" ] && [ "$i" != "skipped" ]; then
+              echo ""
+              echo "Status check not okay!"
+              exit 1
+            fi
+          done
