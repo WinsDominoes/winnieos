@@ -4,6 +4,8 @@ set -ouex pipefail
 
 # Packages
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
+dnf5 copr enable -y swayfx/swayfx
+
 sysadmin_packages=(
   "proxmox-backup-client"
 )
@@ -18,7 +20,7 @@ utility_packages=(
   "trivalent"
   "keyd"
   "micro"
-  "sway"
+  "swayfx"
   'cosmic-session'
 )
 
@@ -34,6 +36,8 @@ dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
+dnf5 copr disable -y swayfx/swayfx
+
 # brew_packages=(
 #   "btop"
 #   "dysk"
