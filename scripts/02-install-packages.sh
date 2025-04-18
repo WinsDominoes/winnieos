@@ -19,7 +19,7 @@ utility_packages=(
   "keyd"
   "micro"
   "swayfx"
-  "fuzzle"
+  "fuzzel"
 )
 
 dnf_packages=(
