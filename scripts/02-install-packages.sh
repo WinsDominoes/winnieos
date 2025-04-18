@@ -30,7 +30,6 @@ dnf_packages=(
 
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
-dnf5 remove -y foot dmenu
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
