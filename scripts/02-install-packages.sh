@@ -3,23 +3,9 @@
 set -ouex pipefail
 
 # Packages
-
+dnf5 copr enable -y derenderkeks/proxmox-backup-client
 sysadmin_packages=(
-  "subscription-manager"
-  "cockpit-navigator"
-  "cockpit-bridge"
-  "cockpit-system"
-  "cockpit-selinux"
-  "cockpit-networkmanager"
-  "cockpit-storaged"
-  "cockpit-podman"
-  "cockpit-machines"
-  "cockpit-kdump"
-  "libguestfs-tools"
-  "NetworkManager-tui"
-  "virt-install"
-  "virt-manager"
-  "virt-viewer"
+  "proxmox-backup-client"
 )
 
 programming_packages=(
@@ -32,8 +18,7 @@ utility_packages=(
   "trivalent"
   "keyd"
   "micro"
-  "syncthing"
-  "stow"
+  "sway"
 )
 
 dnf_packages=(
@@ -44,10 +29,11 @@ dnf_packages=(
 
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
+dnf5 install -y @cosmic-desktop-environment
 
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
-
+dnf5 copr disable -y derenderkeks/proxmox-backup-client
 # brew_packages=(
 #   "btop"
 #   "dysk"
