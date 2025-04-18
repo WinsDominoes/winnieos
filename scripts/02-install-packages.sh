@@ -11,7 +11,7 @@ sysadmin_packages=(
 )
 
 programming_packages=(
-  "codium"
+  "i3blocks"
 )
 
 utility_packages=(
@@ -19,7 +19,6 @@ utility_packages=(
   "keyd"
   "micro"
   "swayfx"
-  "cosmic-session"
   "fuzzle"
 )
 
@@ -31,13 +30,12 @@ dnf_packages=(
 
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
-dnf5 remove -y foot
-dnf5 remove -y cosmic-files cosmic-term dmenu 
-
+dnf5 remove -y foot dmenu
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 
 # brew_packages=(
 #   "btop"
