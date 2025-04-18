@@ -6,6 +6,8 @@ set -ouex pipefail
 
 programming_packages=(
   "nano"
+  "foot"
+  "dmenu"
 )
 
 packages=(
