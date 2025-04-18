@@ -19,7 +19,8 @@ utility_packages=(
   "keyd"
   "micro"
   "swayfx"
-  'cosmic-session'
+  "cosmic-session"
+  "fuzzle"
 )
 
 dnf_packages=(
@@ -30,6 +31,8 @@ dnf_packages=(
 
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
+dnf5 remove -y foot
+dnf5 remove -y cosmic-files cosmic-term dmenu 
 
 # install fzf-tab-completion
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
