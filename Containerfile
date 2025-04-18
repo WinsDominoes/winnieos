@@ -1,4 +1,4 @@
-ARG BASE_IMAGE
+FROM ghcr.io/ublue-os/bluefin-dx:stable
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -12,11 +12,18 @@ ARG BASE_IMAGE
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
+    
+COPY system_files /
+COPY scripts /scripts
 
-COPY build_files/ /scripts
-COPY system_files 
-FROM ${BASE_IMAGE}
- 
+ARG BASE_IMAGE_NAME="bluefin-dx"
+ARG FEDORA_MAJOR-VERSION="41"
+ARG IMAGE_NAME="winnieos"
+ARG IMAGE_VENDOR="winsdominoes"
+ARG FEDORA_MAJOR_VERSION="41"
+ARG UBLUE_IMAGE_TAG="stable"
+ARG VERSION=""
+
 RUN /scripts/00-preconfigure.sh && \
     /scripts/01-image-info.sh && \
     /scripts/02-install-packages.sh && \
