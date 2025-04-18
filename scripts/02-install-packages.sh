@@ -12,8 +12,6 @@ sysadmin_packages=(
 
 programming_packages=(
   "codium"
-  "gh"
-  "insync"
 )
 
 utility_packages=(
