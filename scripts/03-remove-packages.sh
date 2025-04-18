@@ -5,7 +5,7 @@ set -ouex pipefail
 # Packages
 
 programming_packages=(
-  "code"
+  "nano"
 )
 
 packages=(
