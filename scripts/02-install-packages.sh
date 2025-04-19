@@ -12,6 +12,7 @@ sysadmin_packages=(
 
 programming_packages=(
   "i3blocks"
+  "gparted"
 )
 
 utility_packages=(
