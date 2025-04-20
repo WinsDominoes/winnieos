@@ -2,10 +2,24 @@
 
 set -ouex pipefail
 
-mkdir -p /usr/share/factory/var/opt
-mv -Tv /var/opt /usr/lib/opt
-mkdir -p /var/opt # Recreate an empty dir, just in case
-echo "C+ /var/opt - - - - /usr/share/factory/var/opt" >>/usr/lib/tmpfiles.d/bazzite-factory-opt.conf
+
+trap '[[ $BASH_COMMAND != echo* ]] && [[ $BASH_COMMAND != log* ]] && echo "+ $BASH_COMMAND"' DEBUG
+
+log() {
+  echo "=== $* ==="
+}
+
+log "Starting /opt directory fix"
+
+# Move directories from /var/opt to /usr/lib/opt
+for dir in /var/opt/*/; do
+  [ -d "$dir" ] || continue
+  dirname=$(basename "$dir")
+  mv "$dir" "/usr/lib/opt/$dirname"
+  echo "L+ /var/opt/$dirname - - - - /usr/lib/opt/$dirname" >>/usr/lib/tmpfiles.d/opt-fix.conf
+done
+
+log "Fix completed"
 
 # Packages
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
