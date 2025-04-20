@@ -46,6 +46,8 @@ dest=/usr/share/factory/${canon_dest##/}
 mkdir -p /var/opt /usr/share/factory/var/opt
 dnf5 install -y mullvad-vpn
 
+ls /var/opt/
+
 mv -T "$canon_dest" "$dest" 
 
 cat >/usr/lib/tmpfiles.d/mullvad-vpn.conf <<EOF
