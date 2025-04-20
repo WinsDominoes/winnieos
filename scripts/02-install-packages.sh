@@ -21,6 +21,7 @@ utility_packages=(
   "micro"
   "swayfx"
   "fuzzel"
+  "mullvad-vpn"
 )
 
 dnf_packages=(
@@ -36,6 +37,8 @@ dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
+
 
 # brew_packages=(
 #   "btop"
