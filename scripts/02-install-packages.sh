@@ -2,25 +2,10 @@
 
 set -ouex pipefail
 
-get_yaml_array OPTFIX '.optfix[]' "$1"
-if [[ ${#OPTFIX[@]} -gt 0 ]]; then
-    echo "Creating symlinks to fix packages that install to /opt"
-    # Create symlink for /opt to /var/opt since it is not created in the image yet
-    mkdir -p "/var/opt"
-    ln -s "/var/opt"  "/opt"
-    # Create symlinks for each directory specified in recipe.yml
-    for OPTPKG in "${OPTFIX[@]}"; do
-        OPTPKG="${OPTPKG%\"}"
-        OPTPKG="${OPTPKG#\"}"
-        OPTPKG=$(printf "$OPTPKG")
-        mkdir -p "/usr/lib/opt/${OPTPKG}"
-        ln -s "../../usr/lib/opt/${OPTPKG}" "/var/opt/${OPTPKG}"
-        echo "Created symlinks for ${OPTPKG}"
-    done
-fi
-
-get_yaml_array INSTALL '.install[]' "$1"
-get_yaml_array REMOVE '.remove[]' "$1"
+mkdir -p /usr/share/factory/var/opt
+mv -Tv /var/opt /usr/lib/opt
+mkdir -p /var/opt # Recreate an empty dir, just in case
+echo "C+ /var/opt - - - - /usr/share/factory/var/opt" >>/usr/lib/tmpfiles.d/bazzite-factory-opt.conf
 
 # Packages
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
