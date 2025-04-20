@@ -39,7 +39,7 @@ dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 
 
-canon_dest=/var/opt/mullvad
+canon_dest=/var/opt/'Mullvad VPN'
 dest=/usr/share/factory/${canon_dest##/}
 
 
