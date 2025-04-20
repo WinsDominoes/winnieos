@@ -10,6 +10,11 @@ disconnect-home:
     echo "Disconnecting from home"
     tailscale down
 
+# Setting up Mullvad
+mullvad-vpn:
+    #!/bin/bash
+    sudo cp -r /usr/share/factory/var/opt/'Mullvad VPN' /var/opt
+
 # Install system flatpaks
 _install-winnie-flatpaks:
     #!/bin/bash
