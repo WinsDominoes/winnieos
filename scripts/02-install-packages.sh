@@ -38,7 +38,6 @@ dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 
-trap 'skip_on_err "Error installing mullvad-vpn"' ERR
 
 canon_dest=/var/opt/mullvad
 dest=/usr/share/factory/${canon_dest##/}
