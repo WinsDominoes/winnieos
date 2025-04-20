@@ -2,25 +2,6 @@
 
 set -ouex pipefail
 
-
-trap '[[ $BASH_COMMAND != echo* ]] && [[ $BASH_COMMAND != log* ]] && echo "+ $BASH_COMMAND"' DEBUG
-
-log() {
-  echo "=== $* ==="
-}
-
-log "Starting /opt directory fix"
-
-# Move directories from /var/opt to /usr/lib/opt
-for dir in /var/opt/*/; do
-  [ -d "$dir" ] || continue
-  dirname=$(basename "$dir")
-  mv "$dir" "/usr/lib/opt/$dirname"
-  echo "L+ /var/opt/$dirname - - - - /usr/lib/opt/$dirname" >>/usr/lib/tmpfiles.d/opt-fix.conf
-done
-
-log "Fix completed"
-
 # Packages
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
 dnf5 copr enable -y swayfx/swayfx
@@ -40,7 +21,6 @@ utility_packages=(
   "micro"
   "swayfx"
   "fuzzel"
-  "mullvad-vpn"
 )
 
 dnf_packages=(
@@ -57,6 +37,23 @@ dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
+
+trap 'skip_on_err "Error installing mullvad-vpn"' ERR
+
+canon_dest=/var/opt/mullvad-vpn
+dest=/usr/share/factory/${canon_dest##/}
+
+
+mkdir -p /var/opt /usr/share/factory/var/opt
+dnf5 install -y mullvad-vpn
+
+mv -T "$canon_dest" "$dest" 
+
+cat >/usr/lib/tmpfiles.d/mullvad-vpn.conf <<EOF
+#Type  Path         Mode  User  Group  Age  Argument…
+C+     $canon_dest  -     -     -      -    $dest
+EOF
+
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
 
 
