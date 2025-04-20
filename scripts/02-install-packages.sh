@@ -2,6 +2,10 @@
 
 set -ouex pipefail
 
+mkdir -p /usr/share/factory/var/opt
+mv -Tv /var/opt /usr/lib/opt
+mkdir -p /var/opt # Recreate an empty dir, just in case
+echo "C+ /var/opt - - - - /usr/share/factory/var/opt" >>/usr/lib/tmpfiles.d/bazzite-factory-opt.conf
 
 # Packages
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
@@ -34,10 +38,7 @@ dnf_packages=(
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 # install fzf-tab-completion
-mkdir -p /usr/share/factory/var/opt
-mv -Tv /var/opt /usr/lib/opt
-mkdir -p /var/opt # Recreate an empty dir, just in case
-echo "C+ /var/opt - - - - /usr/share/factory/var/opt" >>/usr/lib/tmpfiles.d/bazzite-factory-opt.conf
+
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
