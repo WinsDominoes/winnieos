@@ -13,6 +13,7 @@ sysadmin_packages=(
 programming_packages=(
   "i3blocks"
   "gparted"
+  "codium"
 )
 
 utility_packages=(
