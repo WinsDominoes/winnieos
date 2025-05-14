@@ -8,6 +8,8 @@ dnf5 copr enable -y swayfx/swayfx
 
 sysadmin_packages=(
   "proxmox-backup-client"
+  "slimbook-meta-gnome"
+  "slimbook-service"
 )
 
 programming_packages=(
@@ -38,6 +40,8 @@ dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/vscodium.repo
 
 
 canon_dest=/var/opt/'Mullvad VPN'

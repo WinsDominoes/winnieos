@@ -8,6 +8,7 @@ programming_packages=(
   "nano"
   "foot"
   "dmenu"
+  "gnome-shell-extension-gsconnect"
 )
 
 packages=(
