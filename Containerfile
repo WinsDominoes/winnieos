@@ -30,5 +30,6 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/03-remove-packages.sh && \
     /scripts/04-enable-services.sh && \
     /scripts/05-just.sh && \
-    /scripts/06-cleanup.sh && \
+    /scripts/06-selinux.sh && \
+    /scripts/07-cleanup.sh && \
     ostree container commit
