@@ -2,7 +2,7 @@
 
 set -ouex pipefail
 
-# Packages
+# Packages 
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
 dnf5 copr enable -y swayfx/swayfx
 
@@ -34,6 +34,10 @@ dnf_packages=(
 
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
+
+# Install CrossOver
+dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
+
 # install fzf-tab-completion
 
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
