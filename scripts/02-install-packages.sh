@@ -51,9 +51,6 @@ dest=/usr/share/factory/${canon_dest##/}
 mkdir -p /var/opt /usr/share/factory/var/opt
 dnf5 install -y mullvad-vpn
 
-# Install CrossOver
-dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
-
 ls /var/opt/
 
 mv -T "$canon_dest" "$dest" 
@@ -65,6 +62,13 @@ EOF
 
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
 
+# CrossOver
+canon_dest=/var/opt/'cxoffice'
+dest=/usr/share/factory/${canon_dest##/}
+
+dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
+
+cp -r "$canon_dest" "$dest"
 
 # brew_packages=(
 #   "btop"
