@@ -35,9 +35,6 @@ dnf_packages=(
 # install rpms
 dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 
-# Install CrossOver
-dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
-
 # install fzf-tab-completion
 
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
@@ -47,13 +44,15 @@ sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/vscodium.repo
 
-
+# Mullvad VPN
 canon_dest=/var/opt/'Mullvad VPN'
 dest=/usr/share/factory/${canon_dest##/}
 
-
 mkdir -p /var/opt /usr/share/factory/var/opt
 dnf5 install -y mullvad-vpn
+
+# Install CrossOver
+dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
 
 ls /var/opt/
 
