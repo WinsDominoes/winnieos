@@ -26,10 +26,15 @@ utility_packages=(
   "fuzzel"
 )
 
+dependency_packages=(
+  "perl-File-Copy"
+)
+
 dnf_packages=(
   ${sysadmin_packages[@]}
   ${programming_packages[@]}
   ${utility_packages[@]}
+  ${dependency_packages[@]}
 )
 
 # install rpms
