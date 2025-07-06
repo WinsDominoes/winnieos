@@ -70,7 +70,7 @@ dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
 
 cp -r "$canon_dest" "$dest"
 
-cat >/usr/lib/tmpfiles.d/mullvad-vpn.conf <<EOF
+cat >/usr/lib/tmpfiles.d/crossover.conf <<EOF
 #Type  Path         Mode  User  Group  Age  Argument…
 C+     $canon_dest  -     -     -      -    $dest
 EOF
