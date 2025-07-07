@@ -26,8 +26,33 @@ utility_packages=(
   "fuzzel"
 )
 
+# Mostly CrossOver dependencies
 dependency_packages=(
   "perl-File-Copy"
+  "fontconfig.i686"
+  "fontconfig.x86_64"
+  "gstreamer1-plugins-bad-free.i686"
+  "gstreamer1-plugins-bad-free.x86_64"
+  "gstreamer1-plugins-base.i686"
+  "gstreamer1-plugins-base.x86_64"
+  "gstreamer1-plugins-good.i686"
+  "gstreamer1-plugins-good.x86_64"
+  "gstreamer1.i686"
+  "gstreamer1.x86_64"
+  "libXcomposite.i686"
+  "libXcomposite.x86_64"
+  "libXinerama.i686"
+  "libXinerama.x86_64"
+  "nss-mdns.i686"
+  "nss-mdns.x86_64"
+  "pcsc-lite-libs.i686"
+  "pcsc-lite-libs.x86_64"
+  "pulseaudio-libs.i686"
+  "pulseaudio-libs.x86_64"
+  "sane-backends-libs.i686"
+  "sane-backends-libs.x86_64"
+  "vulkan-loader.i686"
+  "vulkan-loader.x86_64"
 )
 
 dnf_packages=(
