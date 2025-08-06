@@ -46,6 +46,31 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/03-remove-packages.sh && \
     /scripts/04-enable-services.sh && \
     /scripts/05-just.sh && \
-    /scripts/06-selinux.sh && \
-    /scripts/07-cleanup.sh && \
+    /scripts/06-selinux.sh
+
+RUN \
+  # add in the module source code
+  --mount=type=bind,from=ghcr.io/blue-build/modules:latest,src=/modules,dst=/tmp/modules,rw \
+  # add in the script that sets up the module run environment
+  --mount=type=bind,from=ghcr.io/blue-build/cli/build-scripts:latest,src=/scripts/,dst=/tmp/scripts/ \
+# run the module
+config=$'\
+type: dnf \n\
+repos:\n\
+  cleanup: true \n\
+  files: \n\
+    - https://repository.mullvad.net/rpm/stable/mullvad.repo \n\
+optfix: \n\
+  - 'Mullvad VPN' \n\
+  - cxoffice \n\
+install: \n\
+  skip-unavailable: true \n\
+packages: \n\
+  - mullvad-vpn \n\
+  - http://crossover.codeweavers.com/redirect/crossover.rpm \n\
+' && \
+/tmp/scripts/run_module.sh "$(echo "$config" | yq eval '.type')" "$(echo "$config" | yq eval -o=j -I=0)"
+
+
+RUN /scripts/07-cleanup.sh && \
     ostree container commit

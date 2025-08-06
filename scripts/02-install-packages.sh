@@ -74,37 +74,6 @@ sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/vscodium.repo
 
-# Mullvad VPN
-canon_dest=/var/opt/'Mullvad VPN'
-dest=/usr/share/factory/${canon_dest##/}
-
-mkdir -p /var/opt /usr/share/factory/var/opt
-dnf5 install -y mullvad-vpn
-
-ls /var/opt/
-
-mv -T "$canon_dest" "$dest" 
-
-cat >/usr/lib/tmpfiles.d/mullvad-vpn.conf <<EOF
-#Type  Path         Mode  User  Group  Age  Argument…
-C+     $canon_dest  -     -     -      -    $dest
-EOF
-
-sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
-
-# CrossOver
-canon_dest=/var/opt/'cxoffice'
-dest=/usr/share/factory/${canon_dest##/}
-
-dnf5 install -y http://crossover.codeweavers.com/redirect/crossover.rpm
-
-cp -r "$canon_dest" "$dest"
-
-cat >/usr/lib/tmpfiles.d/crossover.conf <<EOF
-#Type  Path         Mode  User  Group  Age  Argument…
-C+     $canon_dest  -     -     -      -    $dest
-EOF
-
 # brew_packages=(
 #   "btop"
 #   "dysk"
