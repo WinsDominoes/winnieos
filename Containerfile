@@ -63,13 +63,13 @@ repos:\n\
     files: \n\
       - https://repository.mullvad.net/rpm/stable/mullvad.repo \n\
   optfix: \n\
-    - Mullvad VPN \n\
-    - cxoffice \n\
+      - Mullvad VPN \n\
+      - cxoffice \n\
   install: \n\
-    skip-unavailable: true \n\
-  packages: \n\
-    - mullvad-vpn \n\
-    - http://crossover.codeweavers.com/redirect/crossover.rpm \n\
+      skip-unavailable: true \n\
+      packages: \n\
+          - mullvad-vpn \n\
+          - http://crossover.codeweavers.com/redirect/crossover.rpm \n\
 ' && \
 /tmp/scripts/run_module.sh "$(echo "$config" | yq eval '.type')" "$(echo "$config" | yq eval -o=j -I=0)"
 
