@@ -26,7 +26,7 @@ ARG VERSION=""
 # `yq` be used to pass BlueBuild modules configuration written in yaml
 COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 FROM ghcr.io/blue-build/nushell-image:default as nushell
-COPY --from=nushell /nu/nu /usr/libexec/bluebuild/nu/nu
+COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
 
 RUN \
   # add in the module source code
