@@ -61,7 +61,7 @@ type: dnf \n\
 repos:\n\
     cleanup: true \n\
     files: \n\
-      - https://repository.mullvad.net/rpm/stable/mullvad.repo \n\
+        - https://repository.mullvad.net/rpm/stable/mullvad.repo \n\
   optfix: \n\
       - Mullvad VPN \n\
       - cxoffice \n\
