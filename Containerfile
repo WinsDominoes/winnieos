@@ -23,10 +23,12 @@ ARG IMAGE_VENDOR="winsdominoes"
 ARG FEDORA_MAJOR_VERSION="42"
 ARG UBLUE_IMAGE_TAG="42"
 ARG VERSION=""
-# `yq` be used to pass BlueBuild modules configuration written in yaml
-COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 FROM ghcr.io/blue-build/nushell-image:default as nushell
 COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
+
+
+# `yq` be used to pass BlueBuild modules configuration written in yaml
+COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 
 RUN \
   # add in the module source code
