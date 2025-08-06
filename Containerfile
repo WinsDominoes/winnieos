@@ -23,7 +23,7 @@ ARG IMAGE_VENDOR="winsdominoes"
 ARG FEDORA_MAJOR_VERSION="42"
 ARG UBLUE_IMAGE_TAG="42"
 ARG VERSION=""
-FROM ghcr.io/blue-build/nushell-image:default as nushell
+
 COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
 
 
