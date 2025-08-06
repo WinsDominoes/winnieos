@@ -48,6 +48,8 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/05-just.sh && \
     /scripts/06-selinux.sh
 
+COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
+
 RUN \
   # add in the module source code
   --mount=type=bind,from=ghcr.io/blue-build/modules:latest,src=/modules,dst=/tmp/modules,rw \
@@ -61,7 +63,7 @@ repos:\n\
   files: \n\
     - https://repository.mullvad.net/rpm/stable/mullvad.repo \n\
 optfix: \n\
-  - 'Mullvad VPN' \n\
+  - Mullvad VPN \n\
   - cxoffice \n\
 install: \n\
   skip-unavailable: true \n\
