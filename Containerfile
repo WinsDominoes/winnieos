@@ -1,3 +1,6 @@
+
+COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
+
 FROM ghcr.io/ublue-os/bluefin-dx:stable-daily
 
 ## Other possible base images include:
@@ -49,8 +52,6 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/05-just.sh && \
     /scripts/06-selinux.sh
 
-
-COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
 
 
 
