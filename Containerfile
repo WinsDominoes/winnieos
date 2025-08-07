@@ -24,9 +24,6 @@ ARG FEDORA_MAJOR_VERSION="42"
 ARG UBLUE_IMAGE_TAG="42"
 ARG VERSION=""
 
-COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
-
-
 # `yq` be used to pass BlueBuild modules configuration written in yaml
 COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 
@@ -52,7 +49,10 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/05-just.sh && \
     /scripts/06-selinux.sh
 
-COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
+
+COPY --from=ghcr.io/blue-build/nushell-image:default /nu/nu /usr/libexec/bluebuild/nu/nu
+
+
 
 RUN \
   # add in the module source code
