@@ -15,7 +15,6 @@ sysadmin_packages=(
 programming_packages=(
   "i3blocks"
   "gparted"
-  "codium"
 )
 
 utility_packages=(
@@ -72,7 +71,6 @@ dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
-sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/vscodium.repo
 
 dnf5 config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
 # Mullvad VPN
