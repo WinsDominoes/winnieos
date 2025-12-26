@@ -5,11 +5,14 @@ set -ouex pipefail
 # Packages 
 dnf5 copr enable -y derenderkeks/proxmox-backup-client
 dnf5 copr enable -y swayfx/swayfx
+dnf5 copr enable -y secureblue/trivalent
+dnf5 copr enable -y secureblue/run0edit
 
 sysadmin_packages=(
   "proxmox-backup-client"
   "slimbook-meta-gnome"
   "slimbook-service"
+  "osbuild-selinux"
 )
 
 programming_packages=(
@@ -19,8 +22,9 @@ programming_packages=(
 
 utility_packages=(
   "trivalent"
+  "trivalent-subresource-filter"
   "keyd"
-  "micro"
+  "run0edit"
   "swayfx"
   "fuzzel"
 )
