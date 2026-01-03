@@ -7,12 +7,14 @@ dnf5 copr enable -y derenderkeks/proxmox-backup-client
 dnf5 copr enable -y swayfx/swayfx
 dnf5 copr enable -y secureblue/trivalent
 dnf5 copr enable -y secureblue/run0edit
+dnf5 copr enable -y amyiscoolz/komnenos-logos
 
 sysadmin_packages=(
   "proxmox-backup-client"
   "slimbook-meta-gnome"
   "slimbook-service"
   "osbuild-selinux"
+  "komnenos-logos"
 )
 
 programming_packages=(
@@ -66,7 +68,7 @@ dnf_packages=(
 )
 
 # install rpms
-dnf5 install -y ${dnf_packages[@]} --skip-unavailable
+dnf5 install -y ${dnf_packages[@]} --skip-unavailable 
 
 # install fzf-tab-completion
 
