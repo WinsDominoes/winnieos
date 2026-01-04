@@ -8,6 +8,8 @@ programming_packages=(
   "nano"
   "foot"
   "dmenu"
+  "gnome-software*"
+  "gnome-extension-app"
 )
 
 packages=(

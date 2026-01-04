@@ -126,4 +126,3 @@ sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
 # brew install ${brew_packages[@]}
 
 # Build Extensions
-dnf5 install -y gnome-shell-extension-appindicator gnome-shell-extension-logo-menu gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell 
