@@ -17,10 +17,7 @@ IMAGE_INFO="/usr/share/ublue-os/image-info.json"
 IMAGE_REF="ostree-image-signed:docker://ghcr.io/$IMAGE_VENDOR/$IMAGE_NAME"
 
 # Image Flavor
-image_flavor="main"
-if [[ "${IMAGE_NAME}" =~ nvidia ]]; then
-  image_flavor="nvidia"
-fi
+
 
 cat >$IMAGE_INFO <<EOF
 {
