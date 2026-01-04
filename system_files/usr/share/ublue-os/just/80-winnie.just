@@ -13,7 +13,7 @@ disconnect-home:
 # Setting up Mullvad
 mullvad-vpn:
     #!/bin/bash
-    sudo cp -r /usr/share/factory/var/opt/'Mullvad VPN' /var/opt
+    sudo cp -r /usr/lib/var/opt/'Mullvad VPN' /var/opt
 
 # Install system flatpaks
 _install-winnie-flatpaks:
