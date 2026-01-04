@@ -80,24 +80,47 @@ dnf5 copr disable -y swayfx/swayfx
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
 
-#dnf5 config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
+SOURCE_DIR="/usr/lib/opt"
+TARGET_DIR="/var/opt"
+
+# Ensure the target directory exists
+mkdir -p "$TARGET_DIR"
+
+# Loop through directories in the source directory
+for dir in "$SOURCE_DIR/"*/; do
+  if [ -d "$dir" ]; then
+    # Get the base name of the directory
+    dir_name=$(basename "$dir")
+    
+    # Check if the symlink already exists in the target directory
+    if [ -L "$TARGET_DIR/$dir_name" ]; then
+      echo "Symlink already exists for $dir_name, skipping."
+      continue
+    fi
+    
+    # Create the symlink
+    ln -s "$dir" "$TARGET_DIR/$dir_name"
+    echo "Created symlink for $dir_name"
+  fi
+done
+
+dnf5 config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
 # Mullvad VPN
 #canon_dest=/var/opt/'Mullvad VPN'
 #dest=/usr/share/factory/${canon_dest##/}
 
-#mkdir -p /var/opt /usr/share/factory/var/opt
-#dnf5 install -y mullvad-vpn
+dnf5 install -y mullvad-vpn
 
 #ls /var/opt/
 
-#mv -T "$canon_dest" "$dest" 
+mv -T "$SOURCE_DIR" "$TARGET_DIR" 
 
-#cat >/usr/lib/tmpfiles.d/mullvad-vpn.conf <<EOF
-#Type  Path         Mode  User  Group  Age  Argument…
-#C+     $canon_dest  -     -     -      -    $dest
-#EOF
+cat >/usr/lib/tmpfiles.d/mullvad-vpn.conf <<EOF
+Type  Path         Mode  User  Group  Age  Argument…
+C+     $SOURCE_DIR  -     -     -      -    $TARGET_DIR
+EOF
 
-#sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
 
 # CrossOver
 #canon_dest=/var/opt/'cxoffice'
