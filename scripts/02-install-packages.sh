@@ -123,3 +123,26 @@ sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/mullvad.repo
 # )
 # 
 # brew install ${brew_packages[@]}
+
+# Build Extensions
+
+# AppIndicator Support
+glib-compile-schemas --strict /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
+
+# Blur My Shell
+make -C /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
+unzip -o /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/build/blur-my-shell@aunetx.shell-extension.zip -d /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
+glib-compile-schemas --strict /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
+rm -rf /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/build
+
+# Caffeine
+# The Caffeine extension is built/packaged into a temporary subdirectory (tmp/caffeine/caffeine@patapon.info).
+# Unlike other extensions, it must be moved to the standard extensions directory so GNOME Shell can detect it.
+mv /usr/share/gnome-shell/extensions/tmp/caffeine/caffeine@patapon.info /usr/share/gnome-shell/extensions/caffeine@patapon.info
+glib-compile-schemas --strict /usr/share/gnome-shell/extensions/caffeine@patapon.info/schemas
+
+# Logo Menu
+# xdg-terminal-exec is required for this extension as it opens up terminals using that script
+install -Dpm0755 -t /usr/bin /usr/share/gnome-shell/extensions/logomenu@aryan_k/distroshelf-helper
+install -Dpm0755 -t /usr/bin /usr/share/gnome-shell/extensions/logomenu@aryan_k/missioncenter-helper
+glib-compile-schemas --strict /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas

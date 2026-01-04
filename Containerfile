@@ -42,16 +42,6 @@ ARG VERSION=""
 # `yq` be used to pass BlueBuild modules configuration written in yaml
 COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 
-# run the module
-config=$'\
-type: gnome-extensions \n\
-install: \n\
-    - AppIndicator and KStatusNotifierItem Support # https://extensions.gnome.org/extension/615/appindicator-support/ \n\
-    - Blur My Shell # https://extensions.gnome.org/extension/3193/blur-my-shell/ \n\
-    - Logo Menu # https://extensions.gnome.org/extension/4451/logo-menu/ \n\
-' && \
-/tmp/scripts/run_module.sh "$(echo "$config" | yq eval '.type')" "$(echo "$config" | yq eval -o=j -I=0)"
-
 
 RUN /scripts/00-preconfigure.sh && \
     /scripts/01-image-info.sh && \
