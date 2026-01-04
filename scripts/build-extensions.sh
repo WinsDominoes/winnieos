@@ -5,9 +5,14 @@ set -eoux pipefail
 echo "::group:: ===$(basename "$0")==="
 
 # Install tooling
-dnf5 -y install glib2-devel meson sassc cmake dbus-devel
+dnf5 -y install glib2-devel meson sassc cmake dbus-devel git
 
 # Build Extensions
+
+git clone https://github.com/ubuntu/gnome-shell-extension-appindicator /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
+git clone https://github.com/eonpatapon/gnome-shell-extension-caffeine /usr/share/gnome-shell/extensions/tmp/caffeine@patapon.info
+git clone https://github.com/ublue-os/Logomenu /usr/share/gnome-shell/extensions/logomenu@aryan_k
+git clone https://github.com/aunetx/blur-my-shell /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
 
 # AppIndicator Support
 glib-compile-schemas --strict /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
