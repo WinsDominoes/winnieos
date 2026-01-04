@@ -49,6 +49,7 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/03-remove-packages.sh && \
     /scripts/04-enable-services.sh && \
     /scripts/05-just.sh && \
+    /scripts/build-extensions.sh && \
     /scripts/06-selinux.sh
 
 RUN dnf5 install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
