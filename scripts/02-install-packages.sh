@@ -31,6 +31,7 @@ utility_packages=(
   "run0edit"
   "swayfx"
   "fuzzel"
+  "adw-gtk3-theme" 
 )
 
 # Mostly CrossOver dependencies
