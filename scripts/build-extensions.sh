@@ -8,6 +8,11 @@ echo "::group:: ===$(basename "$0")==="
 dnf5 -y install glib2-devel meson sassc cmake dbus-devel git
 
 # Build Extensions
+# HACKY WORKAROUND
+rm -rf /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
+rm -rf /usr/share/gnome-shell/extensions/tmp/caffeine@patapon.info
+rm -rf /usr/share/gnome-shell/extensions/logomenu@aryan_k
+rm -rf /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
 
 git clone https://github.com/ubuntu/gnome-shell-extension-appindicator /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
 git clone https://github.com/eonpatapon/gnome-shell-extension-caffeine /usr/share/gnome-shell/extensions/tmp/caffeine@patapon.info
