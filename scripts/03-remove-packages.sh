@@ -9,7 +9,6 @@ programming_packages=(
   "foot"
   "dmenu"
   "gnome-software*"
-  "gnome-extensions-app"
   "malcontent-control"
   "gnome-tour"
 )
@@ -20,3 +19,9 @@ packages=(
 
 # install rpms
 dnf5 remove -y ${packages[@]}
+
+rm -rf /usr/bin/gnome-extensions-app
+rm -rf /usr/lib64/gnome-extensions-app/
+rm -rf /usr/share/applications/org.gnome.Extensions.desktop
+
+
