@@ -10,7 +10,7 @@ dnf5 -y install glib2-devel meson sassc cmake dbus-devel
 # Build Extensions
 
 # AppIndicator Support
-glib-compile-schemas --strict /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
+glib-compile-schemas --strict /usr/share/gnome-shell/extensions/gnome-shell-extension-appindicator/schemas
 
 # Blur My Shell
 make -C /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
