@@ -24,3 +24,16 @@ _install-winnie-flatpaks:
     flatpak --system -y install ${BAZZITE_FLATPAK_LIST}
     echo "Installing WinnieOS Flatpaks.."
     flatpak --system -y install ${WINNIEOS_FLATPAK_LIST}
+
+# Install brew things
+install_brew_things:
+    #!/bin/bash
+    brew tap ublue-os/tap
+    brew install --cask visual-studio-code-linux
+    brew install --cask vscodium-linux
+    brew install --cask jetbrains-toolbox-linux
+    brew install --cask android-platform-tools
+    brew install pmbootstrap
+    brew install scrcpy
+    brew install --cask font-jetbrains-mono-nerd-font
+    brew install --cask font-inter

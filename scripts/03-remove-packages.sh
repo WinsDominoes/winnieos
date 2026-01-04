@@ -9,7 +9,9 @@ programming_packages=(
   "foot"
   "dmenu"
   "gnome-software*"
-  "gnome-extension-app"
+  "gnome-extensions-app"
+  "malcontent-control"
+  "gnome-tour"
 )
 
 packages=(
