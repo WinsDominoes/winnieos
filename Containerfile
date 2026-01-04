@@ -13,8 +13,7 @@ RUN --mount=type=cache,dst=/var/cache \
     /usr/bin/systemctl preset brew-update.timer && \
     /usr/bin/systemctl preset brew-upgrade.timer
 
-FROM ghcr.io/projectbluefin/common:latest AS bluefin-common
-COPY --from=bluefin-common /system_files/shared /
+COPY --from=ghcr.io/projectbluefin/common:latest /system_files/shared /
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
