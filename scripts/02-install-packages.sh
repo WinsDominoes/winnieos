@@ -1,13 +1,15 @@
 #!/bin/bash
 
+CHROOT="fedora-43-x86_64"
+
 set -ouex pipefail
 
 # Packages 
-dnf5 copr enable -y derenderkeks/proxmox-backup-client
-dnf5 copr enable -y swayfx/swayfx
-dnf5 copr enable -y secureblue/trivalent
-dnf5 copr enable -y secureblue/run0edit
-dnf5 copr enable -y amyiscoolz/komnenos-logos
+dnf5 copr enable -y derenderkeks/proxmox-backup-client ${CHROOT}
+dnf5 copr enable -y swayfx/swayfx ${CHROOT}
+dnf5 copr enable -y secureblue/trivalent ${CHROOT}
+dnf5 copr enable -y secureblue/run0edit ${CHROOT}
+dnf5 copr enable -y amyiscoolz/komnenos-logos ${CHROOT}
 
 sysadmin_packages=(
   "proxmox-backup-client"
