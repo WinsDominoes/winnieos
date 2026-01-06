@@ -33,6 +33,8 @@ utility_packages=(
   "fuzzel"
   "adw-gtk3-theme"
   "just"
+  "nautilus"
+  "ptyxis"
 )
 
 # Mostly CrossOver dependencies
