@@ -39,9 +39,31 @@ ARG FEDORA_MAJOR_VERSION="43"
 ARG UBLUE_IMAGE_TAG="43"
 ARG VERSION=""
 
+## Other possible base images include:
+# FROM ghcr.io/ublue-os/bazzite:latest
+# FROM ghcr.io/ublue-os/bluefin-nvidia:stable
+# 
+# ... and so on, here are more base images
+# Universal Blue Images: https://github.com/orgs/ublue-os/packages
+# Fedora base image: quay.io/fedora/fedora-bootc:41
+# CentOS base images: quay.io/centos-bootc/centos-bootc:stream10
 # `yq` be used to pass BlueBuild modules configuration written in yaml
 COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 
+RUN \
+  # add in the module source code
+  --mount=type=bind,from=ghcr.io/blue-build/modules:latest,src=/modules,dst=/tmp/modules,rw \
+  # add in the script that sets up the module run environment
+  --mount=type=bind,from=ghcr.io/blue-build/cli/build-scripts:latest,src=/scripts/,dst=/tmp/scripts/ \
+  
+# run the module
+config=$'\
+type: gnome-extensions \n\
+install: \n\
+    - Caffeine # https://extensions.gnome.org/extension/517/caffeine/ \n\
+    - Battery Health Charging # https://extensions.gnome.org/extension/5724/battery-health-charging/ \n\
+' && \
+/tmp/scripts/run_module.sh "$(echo "$config" | yq eval '.type')" "$(echo "$config" | yq eval -o=j -I=0)"
 
 RUN /scripts/00-preconfigure.sh && \
     /scripts/01-image-info.sh && \
