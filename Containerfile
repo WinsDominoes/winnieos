@@ -48,6 +48,16 @@ ARG VERSION=""
 # Fedora base image: quay.io/fedora/fedora-bootc:41
 # CentOS base images: quay.io/centos-bootc/centos-bootc:stream10
 # `yq` be used to pass BlueBuild modules configuration written in yaml
+
+RUN /scripts/00-preconfigure.sh && \
+    /scripts/01-image-info.sh && \
+    /scripts/02-install-packages.sh && \
+    /scripts/03-remove-packages.sh && \
+    /scripts/04-enable-services.sh && \
+    /scripts/05-just.sh && \
+    /scripts/build-extensions.sh && \
+    /scripts/06-selinux.sh
+
 COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 
 RUN \
@@ -64,15 +74,6 @@ install: \n\
     - Battery Health Charging # https://extensions.gnome.org/extension/5724/battery-health-charging/ \n\
 ' && \
 /tmp/scripts/run_module.sh "$(echo "$config" | yq eval '.type')" "$(echo "$config" | yq eval -o=j -I=0)"
-
-RUN /scripts/00-preconfigure.sh && \
-    /scripts/01-image-info.sh && \
-    /scripts/02-install-packages.sh && \
-    /scripts/03-remove-packages.sh && \
-    /scripts/04-enable-services.sh && \
-    /scripts/05-just.sh && \
-    /scripts/build-extensions.sh && \
-    /scripts/06-selinux.sh
 
 RUN dnf5 install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
