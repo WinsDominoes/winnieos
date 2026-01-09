@@ -14,19 +14,8 @@ rm -rf /usr/share/gnome-shell/extensions/tmp/caffeine@patapon.info
 rm -rf /usr/share/gnome-shell/extensions/logomenu@aryan_k
 rm -rf /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
 
-git clone https://github.com/ubuntu/gnome-shell-extension-appindicator /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
-git clone https://github.com/eonpatapon/gnome-shell-extension-caffeine /usr/share/gnome-shell/extensions/tmp/caffeine
 git clone https://github.com/ublue-os/Logomenu /usr/share/gnome-shell/extensions/logomenu@aryan_k
-git clone https://github.com/aunetx/blur-my-shell /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
 
-# AppIndicator Support
-glib-compile-schemas --strict /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
-
-# Blur My Shell
-make -C /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
-unzip -o /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/build/blur-my-shell@aunetx.shell-extension.zip -d /usr/share/gnome-shell/extensions/blur-my-shell@aunetx
-glib-compile-schemas --strict /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
-rm -rf /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/build
 
 # Logo Menu
 # xdg-terminal-exec is required for this extension as it opens up terminals using that script
@@ -36,6 +25,5 @@ glib-compile-schemas --strict /usr/share/gnome-shell/extensions/logomenu@aryan_k
 
 # Cleanup
 dnf5 -y remove glib2-devel meson sassc cmake dbus-devel
-rm -rf /usr/share/gnome-shell/extensions/tmp
 
 echo "::endgroup::"
