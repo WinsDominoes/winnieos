@@ -75,6 +75,7 @@ install: \n\
     - Immich Wallpaper # https://extensions.gnome.org/extension/8701/immich-wallpaper/ \n\
     - Blur my Shell # https://extensions.gnome.org/extension/3193/blur-my-shell/ \n\
     - AppIndicator and KStatusNotifierItem Support # https://extensions.gnome.org/extension/615/appindicator-support/ \n\
+    - Removable Drive Menu # https://extensions.gnome.org/extension/7/removable-drive-menu/ \n\
 ' && \
 /tmp/scripts/run_module.sh "$(echo "$config" | yq eval '.type')" "$(echo "$config" | yq eval -o=j -I=0)"
 
