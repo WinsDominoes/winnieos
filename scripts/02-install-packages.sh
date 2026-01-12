@@ -17,6 +17,8 @@ sysadmin_packages=(
   "slimbook-service"
   "osbuild-selinux"
   "komnenos-logos"
+  "xprop"
+  "gnome-shell-extension-pop-shell"
 )
 
 programming_packages=(
