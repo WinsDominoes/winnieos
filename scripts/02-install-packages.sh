@@ -4,6 +4,19 @@ CHROOT="fedora-43-x86_64"
 
 set -ouex pipefail
 
+dnf config-manager addrepo --from-repofile=https://repo.secureblue.dev/secureblue.repo
+dnf config-manager setopt secureblue.enabled=0
+dnf -y install --enablerepo='secureblue' trivalent
+
+dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:/Slimbook/Fedora_43/home:Slimbook.repo
+dnf config-manager setopt home_Slimbook.enabled=0
+dnf -y install --enablerepo='home_Slimbook' slimbook-meta-gnome slimbook-service
+
+dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+dnf config-manager setopt tailscale-stable.enabled=0
+dnf -y install --enablerepo='tailscale-stable' tailscale
+
+systemctl enable tailscaled
 # Packages 
 dnf5 copr enable -y derenderkeks/proxmox-backup-client ${CHROOT}
 dnf5 copr enable -y swayfx/swayfx ${CHROOT}
@@ -13,8 +26,6 @@ dnf5 copr enable -y amyiscoolz/komnenos-logos ${CHROOT}
 
 sysadmin_packages=(
   "proxmox-backup-client"
-  "slimbook-meta-gnome"
-  "slimbook-service"
   "osbuild-selinux"
   "komnenos-logos"
   "xprop"
@@ -27,7 +38,6 @@ programming_packages=(
 )
 
 utility_packages=(
-  "trivalent"
   "trivalent-subresource-filter"
   "keyd"
   "run0edit"
@@ -82,8 +92,9 @@ dnf5 install -y ${dnf_packages[@]} --skip-unavailable
 # git clone https://github.com/lincheney/fzf-tab-completion.git /usr/share/ublue-os/fzf-tab-completion
 dnf5 copr disable -y derenderkeks/proxmox-backup-client
 dnf5 copr disable -y swayfx/swayfx
-sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/secureblue.repo
-sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/Slimbook.repo
+dnf5 copr disable -y secureblue/trivalent
+dnf5 copr disable -y secureblue/run0edit
+dnf5 copr disable -y amyiscoolz/komnenos-logos
 
 SOURCE_DIR="/usr/lib/opt"
 TARGET_DIR="/var/opt"

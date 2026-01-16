@@ -1,7 +1,0 @@
-[home_Slimbook]
-name=home:Slimbook (Fedora_43)
-type=rpm-md
-baseurl=https://download.opensuse.org/repositories/home:/Slimbook/Fedora_43/
-gpgcheck=1
-gpgkey=https://download.opensuse.org/repositories/home:/Slimbook/Fedora_43/repodata/repomd.xml.key
-enabled=1

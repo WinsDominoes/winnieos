@@ -10,12 +10,6 @@ systemctl enable systemd-resolved.service
 
 dnf -y install 'dnf5-command(config-manager)'
 
-dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-dnf config-manager setopt tailscale-stable.enabled=0
-dnf -y install --enablerepo='tailscale-stable' tailscale
-
-systemctl enable tailscaled
-
 dnf -y remove \
   console-login-helper-messages \
   chrony \
