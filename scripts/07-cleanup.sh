@@ -3,6 +3,8 @@
 set -ouex pipefail
 
 rm -vr /scripts
+# GO AWAY fedora flatpaks.
+rm -rf /usr/lib/systemd/system/flatpak-add-fedora-repos.service
 
 # Add Flathub to the image for eventual application
 mkdir -p /etc/flatpak/remotes.d/
