@@ -35,6 +35,10 @@ sysadmin_packages=(
 programming_packages=(
   "i3blocks"
   "gparted"
+  "hardinfo2"
+  "sysbench"
+  "iperf3"
+  "vulkan-tools"
 )
 
 utility_packages=(

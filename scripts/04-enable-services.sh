@@ -11,3 +11,4 @@ systemctl enable --global gnome-keyring-daemon.socket
 systemctl enable flatpak-preinstall.service
 systemctl enable rechunker-group-fix.service
 systemctl enable --global bazaar.service
+systemctl enable hardinfo2
