@@ -51,6 +51,7 @@ utility_packages=(
   "just"
   "nautilus"
   "ptyxis"
+  "https://github.com/RedCommand/flatpak-alias/releases/download/v0.1.4/flatpak-alias_0.1.4_linux_amd64.rpm"
 )
 
 # Mostly CrossOver dependencies
