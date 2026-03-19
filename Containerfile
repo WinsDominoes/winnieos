@@ -55,8 +55,7 @@ RUN /scripts/00-preconfigure.sh && \
     /scripts/03-remove-packages.sh && \
     /scripts/04-enable-services.sh && \
     /scripts/05-just.sh && \
-    /scripts/build-extensions.sh && \
-    /scripts/06-selinux.sh
+    /scripts/build-extensions.sh
 
 COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 
@@ -93,5 +92,5 @@ RUN dnf5 install -y /tmp/akmods-common/rpms/kmods/kmod-xone*.rpm --skip-broken
 RUN dnf5 install -y /tmp/akmods-common/rpms/kmods/kmod-framework-laptop*.rpm --skip-broken
 RUN dnf5 install -y /tmp/akmods-common/rpms/kmods/kmod-openrazer*.rpm --skip-broken
 
-RUN /scripts/07-cleanup.sh && \
+RUN /scripts/06-cleanup.sh && \
     ostree container commit

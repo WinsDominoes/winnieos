@@ -6,7 +6,7 @@ set -ouex pipefail
 
 dnf config-manager addrepo --from-repofile=https://repo.secureblue.dev/secureblue.repo
 dnf config-manager setopt secureblue.enabled=0
-dnf -y install --enablerepo='secureblue' trivalent
+dnf -y install --enablerepo='secureblue' trivalent trivalent-selinux
 
 dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:/Slimbook/Fedora_43/home:Slimbook.repo
 dnf config-manager setopt home_Slimbook.enabled=0
