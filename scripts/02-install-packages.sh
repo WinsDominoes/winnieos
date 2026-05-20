@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHROOT="fedora-43-x86_64"
+CHROOT="fedora-44-x86_64"
 
 set -ouex pipefail
 
@@ -8,7 +8,7 @@ dnf config-manager addrepo --from-repofile=https://repo.secureblue.dev/secureblu
 dnf config-manager setopt secureblue.enabled=0
 dnf -y install --enablerepo='secureblue' trivalent trivalent-selinux
 
-dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:/Slimbook/Fedora_43/home:Slimbook.repo
+dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:/Slimbook/Fedora_44/home:Slimbook.repo
 dnf config-manager setopt home_Slimbook.enabled=0
 dnf -y install --enablerepo='home_Slimbook' slimbook-meta-gnome slimbook-service
 
