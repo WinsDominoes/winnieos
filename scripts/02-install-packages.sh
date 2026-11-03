@@ -23,6 +23,7 @@ dnf5 copr enable -y swayfx/swayfx ${CHROOT}
 dnf5 copr enable -y secureblue/trivalent ${CHROOT}
 dnf5 copr enable -y secureblue/run0edit ${CHROOT}
 dnf5 copr enable -y amyiscoolz/komnenos-logos ${CHROOT}
+dnf5 copr enable -y dsommers/openvpn3 ${CHROOT}
 
 sysadmin_packages=(
   "proxmox-backup-client"
@@ -30,6 +31,7 @@ sysadmin_packages=(
   "komnenos-logos"
   "xprop"
   "gnome-shell-extension-pop-shell"
+  "openvpn3-client"
 )
 
 programming_packages=(
