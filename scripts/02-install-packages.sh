@@ -83,6 +83,7 @@ dependency_packages=(
   "sane-backends-libs.x86_64"
   "vulkan-loader.i686"
   "vulkan-loader.x86_64"
+  "NetworkManager-openvpn-gnome.x86_64"
 )
 
 dnf_packages=(
