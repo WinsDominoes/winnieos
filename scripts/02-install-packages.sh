@@ -32,6 +32,7 @@ sysadmin_packages=(
   "xprop"
   "gnome-shell-extension-pop-shell"
   "openvpn3-client"
+  "openvpn"
 )
 
 programming_packages=(
